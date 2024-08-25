@@ -10,7 +10,8 @@ models.Base.metadata.create_all(bind=engine)
 # CORS Middleware
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],  # Adjust this for production
+    allow_origins=["http://localhost:3000","https://unheardnotes.vercel.app"],
+
     allow_credentials=True,
     allow_methods=["*"],  # Allow all HTTP methods
     allow_headers=["*"],  # Allow all headers
