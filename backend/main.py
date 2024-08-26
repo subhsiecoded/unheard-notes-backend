@@ -38,8 +38,21 @@ def read_letters(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
 
 # Read a specific letter by ID
 @app.get("/api/letters/{letter_id}", response_model=schemas.Letter)
-def read_letter(letter_id: int, db: Session = Depends(get_db)):  # Changed letter_id type to int
+def read_letter(letter_id: int, db: Session = Depends(get_db)):
     db_letter = crud.get_letter(db, letter_id=letter_id)
     if db_letter is None:
         raise HTTPException(status_code=404, detail="Letter not found")
     return db_letter
+
+# Like a specific letter by ID
+@app.post("/api/letters/{letter_id}/like", response_model=schemas.Letter)
+def like_letter(letter_id: int, db: Session = Depends(get_db)):
+    db_letter = crud.like_letter(db, letter_id=letter_id)
+    if db_letter is None:
+        raise HTTPException(status_code=404, detail="Letter not found")
+    return db_letter
+
+# Add a comment to a specific letter by ID
+@app.post("/api/letters/{letter_id}/comments", response_model=schemas.Comment)
+def add_comment(letter_id: int, comment: schemas.CommentCreate, db: Session = Depends(get_db)):
+    return crud.create_comment(db=db, comment=comment, letter_id=letter_id)
