@@ -52,6 +52,13 @@ def like_letter(letter_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Letter not found")
     return db_letter
 
+@app.post("/api/letters/{letter_id}/unlike", response_model=schemas.Letter)
+def unlike_letter(letter_id: int, db: Session = Depends(get_db)):
+    letter = crud.unlike_letter(db, letter_id)
+    if not letter:
+        raise HTTPException(status_code=404, detail="Letter not found")
+    return letter
+
 # Add a comment to a specific letter by ID
 @app.post("/api/letters/{letter_id}/comments", response_model=schemas.Comment)
 def add_comment(letter_id: int, comment: schemas.CommentCreate, db: Session = Depends(get_db)):

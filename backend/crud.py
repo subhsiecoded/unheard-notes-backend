@@ -2,7 +2,7 @@ from sqlalchemy.orm import Session
 from . import models, schemas
 
 def create_letter(db: Session, letter: schemas.LetterCreate):
-    db_letter = models.Letter(title=letter.title, content=letter.content, color=letter.color)
+    db_letter = models.Letter(title=letter.title, content=letter.content, color=letter.color, likes=0)  # Initialize likes to 0
     db.add(db_letter)
     db.commit()
     db.refresh(db_letter)
@@ -18,6 +18,14 @@ def like_letter(db: Session, letter_id: int):
     db_letter = db.query(models.Letter).filter(models.Letter.id == letter_id).first()
     if db_letter:
         db_letter.likes += 1
+        db.commit()
+        db.refresh(db_letter)
+    return db_letter
+
+def unlike_letter(db: Session, letter_id: int):
+    db_letter = db.query(models.Letter).filter(models.Letter.id == letter_id).first()
+    if db_letter and db_letter.likes > 0:
+        db_letter.likes -= 1
         db.commit()
         db.refresh(db_letter)
     return db_letter
