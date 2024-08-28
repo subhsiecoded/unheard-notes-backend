@@ -3,7 +3,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 import psycopg2
 import os 
-DATABASE_URL = "postgresql://unheard_notes_database_user:JWQvXajE7MOr23lF4sUSRxgMn5ijk0G2@dpg-cr5m4taj1k6c73971dj0-a.oregon-postgres.render.com/unheard_notes_database"
+DATABASE_URL = process.env.DATABASE_URL
 
 def check_connection():
     try:
