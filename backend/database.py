@@ -2,12 +2,12 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 import psycopg2
-import os 
-DATABASE_URL = process.env.DATABASE_URL
+import os
+
+DATABASE_URL = os.getenv('DATABASE_URL')
 
 def check_connection():
     try:
-        # Establish a connection
         connection = psycopg2.connect(DATABASE_URL)
         print("Connection to PostgreSQL server was successful!")
         connection.close()
