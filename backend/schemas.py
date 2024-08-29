@@ -1,6 +1,7 @@
 from pydantic import BaseModel
 from datetime import datetime
-from typing import List, Optional
+from typing import List
+from uuid import UUID
 
 class CommentBase(BaseModel):
     content: str
@@ -9,7 +10,7 @@ class CommentCreate(CommentBase):
     pass
 
 class Comment(CommentBase):
-    id: int
+    id: UUID
     created_at: datetime
 
     class Config:
@@ -24,7 +25,7 @@ class LetterCreate(LetterBase):
     pass
 
 class Letter(LetterBase):
-    id: int
+    id: UUID
     created_at: datetime
     likes: int
     comments: List[Comment] = []
