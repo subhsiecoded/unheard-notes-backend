@@ -62,4 +62,7 @@ def unlike_letter(letter_id: UUID, db: Session = Depends(get_db)):
 # Add a comment to a specific letter by ID
 @app.post("/api/letters/{letter_id}/comments", response_model=schemas.Comment)
 def add_comment(letter_id: UUID, comment: schemas.CommentCreate, db: Session = Depends(get_db)):
-    return crud.create_comment(db=db, comment=comment, letter_id=letter_id)
+    db_comment = crud.create_comment(db=db, comment=comment, letter_id=letter_id)
+    if db_comment is None:
+        raise HTTPException(status_code=404, detail="Comment could not be created")
+    return db_comment

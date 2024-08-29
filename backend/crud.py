@@ -37,8 +37,8 @@ def unlike_letter(db: Session, letter_id: UUID):
         db.refresh(db_letter)
     return db_letter
 
-def create_comment(db: Session, comment: schemas.CommentCreate, letter_id: UUID):  
-    db_comment = models.Comment(content=comment.content, letter_id=letter_id)
+def create_comment(db: Session, comment: schemas.CommentCreate, letter_id: str) -> models.Comment:
+    db_comment = models.Comment(**comment.dict(), letter_id=letter_id)
     db.add(db_comment)
     db.commit()
     db.refresh(db_comment)
